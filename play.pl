@@ -73,13 +73,21 @@ sub mplayerPlay {
 }
 
 my ($toplay) = @ARGV;
-my $url;
 
-print "toplay:$toplay\n";
 if (!$toplay) {
-    $url = findLast20Stream();
+    print "How to use:\n";
+    print "play.pl <streamDescription>\n";
+    print "Possible stream Descriptions:\n";
+    print "20 : recent 20:00 show\n";
+    print "live : livestream\n";
+    print "recent : most recent show recorded\n";
 }else {
+    my $url;
+
     switch($toplay) {
+        case "20" {
+            $url = findLast20Stream();
+        }
         case "live" {
             $url = findLiveStream();
         }
@@ -87,6 +95,7 @@ if (!$toplay) {
             $url = findRecentStream();
         }
     }
+
+    mplayerPlay($url);
 }
 
-mplayerPlay($url);
