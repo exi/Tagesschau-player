@@ -1,0 +1,4 @@
+this programm extracts an plays some tagesschau streams from www.tagesschau.de
+
+use it like that:
+./play.pl [20|live|recent]
