@@ -55,7 +55,7 @@ sub findLiveStream {
 
 sub findRecentUrl {
     my $content = getMainPageContent();
-    my @lastshownode = findXPath($content,'//div[@id="sendungenLeft"]/ul/li[position()=3]/a');
+    my @lastshownode = findXPath($content,'//div[@id="sendungenLeft"]/ul/li[position()=4]/a');
     my $lastshowurl = @lastshownode[0]->attr('href');
     return $lastshowurl;
 }
