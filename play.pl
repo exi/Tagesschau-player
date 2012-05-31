@@ -21,9 +21,9 @@ sub findXPath {
     return @nodeset;
 }
 
-sub extractOggStream {
+sub extractWebmStream {
     my ($content) = @_;
-    my @playercontrol = findXPath($content,'//div[@id="playercontrol"]/div[@class="block"]/a[position()=2');
+    my @playercontrol = findXPath($content, '//ul[@id="downloadBox"]/li[position()=4]/a');
     my $streampath = @playercontrol[0]->attr('href');
     return $streampath;
 }
@@ -36,7 +36,7 @@ sub getMainPageContent {
 
 sub findLast20Url {
     my $content = getMainPageContent();
-    my @nodes = findXPath($content,'//select[@id="navSendungen"]');
+    my @nodes = findXPath($content, '//select[@id="navSendungen"]');
     my $url = @nodes[0]->content()->[0]->attr('value');
     return $url;
 
@@ -45,7 +45,7 @@ sub findLast20Url {
 sub findLast20Stream {
     my $flashpageurl = findLast20Url();
     my $flashpage = pageRequest($flashpageurl);
-    my $streampath = extractOggStream($flashpage);
+    my $streampath = extractWebmStream($flashpage);
     return $streampath;
 }
 
@@ -55,7 +55,7 @@ sub findLiveStream {
 
 sub findRecentUrl {
     my $content = getMainPageContent();
-    my @lastshownode = findXPath($content,'//div[@id="sendungenLeft"]/ul/li[position()=4]/a');
+    my @lastshownode = findXPath($content,'//div[@id="sendungenLeft"]/ul/li[position()=3]/a');
     my $lastshowurl = @lastshownode[0]->attr('href');
     return $lastshowurl;
 }
@@ -63,7 +63,7 @@ sub findRecentUrl {
 sub findRecentStream {
     my $recentpageurl = findRecentUrl();
     my $recentpage = pageRequest($recentpageurl);
-    my $streampath = extractOggStream($recentpage);
+    my $streampath = extractWebmStream($recentpage);
     return $streampath;
 }
 
@@ -81,10 +81,10 @@ if (!$toplay) {
     print "20 : recent 20:00 show\n";
     print "live : livestream\n";
     print "recent : most recent show recorded\n";
-}else {
+} else {
     my $url;
 
-    switch($toplay) {
+    switch ($toplay) {
         case "20" {
             $url = findLast20Stream();
         }
