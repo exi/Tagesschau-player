@@ -2,7 +2,7 @@
 
 use LWP::Simple;
 use HTML::TreeBuilder::XPath;
-use Switch;
+use feature "switch";
 
 sub pageRequest {
     my ($url) = @_;
@@ -84,16 +84,10 @@ if (!$toplay) {
 } else {
     my $url;
 
-    switch ($toplay) {
-        case "20" {
-            $url = findLast20Stream();
-        }
-        case "live" {
-            $url = findLiveStream();
-        }
-        case "recent" {
-            $url = findRecentStream();
-        }
+    given ($toplay) {
+        $url = findLast20Stream() when "20";
+        $url = findLiveStream() when "live";
+        $url = findRecentStream() when "recent";
     }
 
     mplayerPlay($url);
